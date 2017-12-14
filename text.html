@@ -1,21 +1,32 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="UTF-8">
 		<title></title>
 		<style>
-			*{
+			* {
 				margin: 0;
 				padding: 0;
 			}
-			.text{
+			
+			.text {
 				text-align: center;
 				/*background: linear-gradient(left,red,blue,yellow);*/
 				/*background: -webkit-linear-gradient(left, rgb(0,0,0) , rgb(255,255,255),yellow);*/
 			}
+			
+			.textParent2 {
+				position: absolute;
+			}
+			
+			body {
+				position: relative;
+			}
 		</style>
 		<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 	</head>
+
 	<body>
 		<textarea name="" rows="" cols="" style="display: none;">
 			英 语：I love you
@@ -98,7 +109,12 @@
 　　高加索切尔克斯语：wise cas
 　　汉 语：我爱你
 		</textarea>
-		<div class="textParent"></div>
+		<div class="textParent">
+
+		</div>
+		<div class="textParent2">
+
+		</div>
 		<script>
 			var obj = {};
 			var valueText = $("textarea").val();
@@ -106,34 +122,72 @@
 			var arrChinese = valueText.split("：");
 			var arrChinese2 = [];
 			var arrOtherLanguage = [];
-			for(var i = 0 ;i<arrChinese.length;i++){
-				arrChinese2.push(arrChinese[i].replace(/[^\u4e00-\u9fa5]/gi,""));
-				var oneOfarrOtherLanguage = arrChinese[i].replace(/[\u4e00-\u9fa5]/gi,"").trim();
-				if(oneOfarrOtherLanguage.length>0){
+			for(var i = 0; i < arrChinese.length; i++) {
+				arrChinese2.push(arrChinese[i].replace(/[^\u4e00-\u9fa5]/gi, ""));
+				var oneOfarrOtherLanguage = arrChinese[i].replace(/[\u4e00-\u9fa5]/gi, "").trim();
+				if(oneOfarrOtherLanguage.length > 0) {
 					arrOtherLanguage.push(oneOfarrOtherLanguage);
 				}
 			}
 			//console.log(arrOtherLanguage);
 			//console.log(arrChinese2);
-			for(var i in arrOtherLanguage){
+			for(var i in arrOtherLanguage) {
 				obj[arrChinese2[i]] = arrOtherLanguage[i];
 			}
 			console.log(obj);
 			var html = '';
-			for(var i in arrOtherLanguage){
-				var a1 = Math.floor(Math.random()*255 + 1);
-				var a2 = Math.floor(Math.random()*255 + 1);
-				var a3 = Math.floor(Math.random()*255 + 1);
-				var a4 = Math.floor(Math.random()*255 + 1);
-				var a5 = Math.floor(Math.random()*255 + 1);
-				var a6 = Math.floor(Math.random()*255 + 1);
-				var a7 = Math.floor(Math.random()*255 + 1);
-				var a8 = Math.floor(Math.random()*255 + 1);
-				var a9 = Math.floor(Math.random()*255 + 1);
+			var html2 = '';
+			for(var i in arrOtherLanguage) {
+				var a1 = Math.floor(Math.random() * 255 + 1);
+				var a2 = Math.floor(Math.random() * 255 + 1);
+				var a3 = Math.floor(Math.random() * 255 + 1);
+				var a4 = Math.floor(Math.random() * 255 + 1);
+				var a5 = Math.floor(Math.random() * 255 + 1);
+				var a6 = Math.floor(Math.random() * 255 + 1);
+				var a7 = Math.floor(Math.random() * 255 + 1);
+				var a8 = Math.floor(Math.random() * 255 + 1);
+				var a9 = Math.floor(Math.random() * 255 + 1);
 				html +=
-				`<div class="text" style="background:-webkit-linear-gradient(left, rgb(${a1},${a2},${a3}) , rgb(${a4},${a5},${a6}),rgb(${a7},${a8},${a9}))">${arrOtherLanguage[i]}</div>`;
+					`<div class="text" style="background:-webkit-linear-gradient(left, rgb(${a1},${a2},${a3}) , rgb(${a4},${a5},${a6}),rgb(${a7},${a8},${a9}))">${arrOtherLanguage[i]}</div>`;
+				html2 +=
+					`<div class="text" style="background:-webkit-linear-gradient(left, rgb(0,0,0) , rgb(255,255,255),rgb(0,0,0))">${arrOtherLanguage[i]}</div>`;
 			}
-			$(".textParent").html(html);
+			$(".textParent").html(html2);
+
+			function mouseClick() {
+				var html = '';
+				var random = Math.floor(Math.random() * 68);
+				var randomLanguage = arrOtherLanguage[random];
+				var randomFontSize = Math.floor(Math.random() * 72 + 12) + 'px';
+				var a1 = Math.floor(Math.random() * 255 + 1);
+				var a2 = Math.floor(Math.random() * 255 + 1);
+				var a3 = Math.floor(Math.random() * 255 + 1);
+				var randomColor = "rgb(${a1},${a2},${a3})";
+				var randomLeft = Math.floor(Math.random() * 960) + 'px';
+				var randomTop = Math.floor(Math.random() * 540) + 'px';
+				var randomRotate = Math.floor(Math.random() * 360);
+				html +=
+					`<div class="randomLanguage" style="font-size:${randomFontSize};
+													color:rgb(${a1},${a2},${a3});
+													//background:rgb(${255 - a1},${255 - a2},${255 - a3});
+													text-shadow:5px 5px 5px rgb(${255 - a1},${255 - a2},${255 - a3});
+													-webkit-transform: rotate(${randomRotate}deg); /* Safari and Chrome */
+				">${randomLanguage}</div>`;
+				$(".textParent2").html(html).css({
+					left: randomLeft,
+					top: randomTop
+
+				});
+
+			}
+			$(document).click(function() {
+				mouseClick();
+				clearInterval(timer);
+			});
+			var timer = setInterval(function(){
+				$(document).click();
+			},50)
 		</script>
 	</body>
+
 </html>
