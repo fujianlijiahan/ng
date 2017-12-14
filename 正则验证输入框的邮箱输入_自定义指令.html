@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+	</head>
+
+	<body ng-app="myApp">
+
+		<!--<form name="myForm" ng-controller="costCtrl">
+			Email:
+			<input type="email" name="myAddress" ng-model="text" ng-pattern="reg">
+			<span ng-show="myForm.myAddress.$error.pattern" style="color:red">不是一个合法的邮箱地址</span>
+
+		</form>-->
+		<hello></hello>
+		<div hello></div>
+		<div class="hello">
+			
+		</div>
+		<p>在输入框中输入你的邮箱地址，如果不是一个合法的邮箱地址，会弹出提示信息。</p>
+		<script>
+			var app = angular.module('myApp', []);
+			///////////////==========================================
+			app.controller('costCtrl', function($scope) {
+				console.log("costCtrl");
+				console.log($scope);
+			}).directive("hello", function() {
+				return {
+										template: `<form  name="myForm" ng-controller="costCtrl">
+					  Email:
+					  <input type="email" name="myAddress" ng-model="text" ng-pattern="reg">
+					  <span ng-show="myForm.myAddress.$error.pattern" style = "color:red">不是一个合法的邮箱地址</span>
+					  
+					</form>`,
+					restrict:'EAC',
+					scope:{},
+					controller: function($scope) {
+						$scope.reg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/;
+						console.log($scope)
+					}
+
+				};
+			});
+
+			//////////////////////////////////////////////////////////////////////////////////////
+		</script>
+	</body>
+
+</html>

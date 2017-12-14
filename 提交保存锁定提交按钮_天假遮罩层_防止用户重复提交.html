@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Bootstrap 实例 - 按钮（Button）插件加载状态</title>
+		<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+		<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<style type="text/css">
+			.mask {
+				position: absolute;
+				top: 0px;
+				background-color: #000;
+				z-index: 1002;
+				left: 0px;
+				opacity: 0.4;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="mask" class="mask"></div>
+		<input type="" name="myname" id="myname" value="kangkang" />
+		<button id="fat-btn" class="btn btn-primary" data-loading-text="正在提交" type="button"> 提交保存</button>
+		<script>
+			function showMask() {
+				$("#mask").css("height", $(document).height());
+				$("#mask").css("width", $(document).width());
+				$("#mask").show();
+			}
+			//隐藏遮罩层  
+			function hideMask() {
+
+				$("#mask").hide();
+			}
+			$(function() {
+				$(".btn").click(function() {
+					$(this).button('loading').queue();
+					var me = this;
+					$.ajax({
+						type: 'post',
+						url: 'json.json',
+						data: {
+							myname: $("#myname").val()
+						},
+						beforeSend: function() {
+							showMask();
+						},
+						success: function(json) {
+							console.log(json);
+							$(me).button('reset');
+							$(me).dequeue();
+							hideMask();
+						},
+						error: function(json) {
+							console.log(json);
+							console.log(me);
+							$(me).button('reset');
+							$(me).dequeue();
+							hideMask();
+						}
+					})
+
+				});
+				
+			});
+		</script>
+
+	</body>
+
+</html>

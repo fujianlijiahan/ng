@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+
+<body>
+
+<div ng-app="myApp" ng-controller="myCtrl">
+
+
+姓名: {{ msg | reverse }}
+	<br/>
+	数字：<p>{{msg | num}}</p>
+	
+	<br />
+	number格式化
+	<div>
+		{{6456.5555555 | number}}
+	</div>
+	<br />
+	<div>
+		currency 格式化
+		<div>
+			{{250 | currency}}
+		</div>
+		<div>
+			{{250 | currency : "RMB ￥ "}}
+		</div>
+	</div>
+	<div>
+		<p>
+			filter查找
+		</p>
+		{{ [{"age": 20,"id": 10,"name": "iphone"},
+{"age": 12,"id": 11,"name": "sunm xing"},
+{"age": 44,"id": 12,"name": "test abc"}
+] | filter:{'name':'iphone'} }}        
+	</div>
+	<div>
+		<p>
+			limitTo 截取
+		</p>
+		<div>
+			{{"1234567890" | limitTo :6}} // 从前面开始截取6位
+			<br />
+{{"1234567890" | limitTo:-4}} // 从后面开始截取4位
+		</div>
+	</div>
+	<div>
+		<p>
+			orderBy 排序
+		</p>
+		<div>
+			 // 根id降序排
+			 <br />
+{{ [{"age": 20,"id": 10,"name": "iphone"},
+{"age": 12,"id": 11,"name": "sunm xing"},
+{"age": 44,"id": 12,"name": "test abc"}
+] | orderBy:'id':true }}
+		</div>
+		<div>
+			// 根据id升序排
+			<br />
+			{{ [{"age": 20,"id": 10,"name": "iphone"},
+{"age": 12,"id": 11,"name": "sunm xing"},
+{"age": 44,"id": 12,"name": "test abc"}
+] | orderBy:'id' }}
+		</div>
+	</div>
+</div>
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope,$rootScope) {
+    $scope.msg = "Runoob123132132donghan4";
+	$rootScope.reg = /[^0-9]/ig;
+});
+app.filter('reverse', function() { //可以注入依赖
+    return function(text) {
+        return text.split("").reverse().join("");
+    }
+});
+app.filter('num', function() { //可以注入依赖
+    return function(text) {
+        return text.replace(/[^0-9]/ig,"");
+    }
+});	
+</script>
+
+</body>
+</html>

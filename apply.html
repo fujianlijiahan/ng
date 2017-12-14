@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<script>
+			function person(name, age) {
+				this.name = name;
+				this.age = age;
+			}
+
+			function student(name, age, grade) {
+				person.apply(this, arguments);
+				this.grade = grade;
+			}
+			var stu = new student("mike","456","3");
+			console.log(stu)
+		</script>
+	</body>
+
+</html>

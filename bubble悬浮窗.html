@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+		<script type="text/javascript" src="js/angular-popups.js">
+		</script>
+	</head>
+
+	<body>
+
+		<div ng-app="myApp" ng-controller="myCtrl">
+			名字: <input ng-model="name" 
+				 ng-focus = "bubble.open=true" ng-blur="bubble.open=false" id={{id}}
+				>
+			<button ng-mouseenter="bubble.open=true" ng-mouseleave="bubble.open=false" id="btn">454564</button>
+			<bubble ng-if="bubble.open" for={{id}} close="bubble.open=true" ng-show="true">{{name}}</bubble>
+		</div>
+
+		<script>
+			var app = angular.module('myApp', ['angular-popups']);
+			app.controller('myCtrl', function($scope) {
+				//$scope.name = "hello world"
+				$scope.id="btn555"
+			});
+		</script>
+	</body>
+
+</html>

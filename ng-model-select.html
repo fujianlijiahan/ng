@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+	</head>
+
+	<body>
+
+		<div ng-app="myApp" ng-controller="myCtrl">
+			<div>
+				<select name="" ng-model="myModel" ng-options="x.key as x.value for x in obj"  ng-init="myModel = obj[0].key">
+					<!--<option value="">--选择对象--</option>-->
+				</select>
+				<div ng-hide="myModel == 'age'">他今年的实际年龄是56</div>
+			</div>
+			<div>
+				<select name="" ng-model="myModel2" ng-options="x for x in arr" <!--ng-init="myModel2 = arr[0]"-->>
+					<option value="">--选择数组--</option>
+				</select>
+				<div ng-hide="myModel2 == 'xiaomi'">xiaomi</div>
+			</div>
+
+		</div>
+		<script>
+			var app = angular.module('myApp', []);
+			app.controller('myCtrl', function($scope) {
+				$scope.arr = ["google", "baidu", "apple", "xiaomi"];
+
+				$scope.obj = [{
+						"key": "name",
+						"value": "kangkang"
+					},
+					{
+						"key": "age",
+						"value": "58"
+					},
+					{
+						"key": "work",
+						"value": "worker"
+					},
+					{
+						"key": "address",
+						"value": "shanghai"
+					}
+				];
+				console.log($scope.obj[0].key);
+				//$scope.myModel = $scope.obj[0].key;
+
+				//$scope.myModel2 = $scope.arr[0]; 
+				//无论是循环数组还是循环对象出来的结果,都可以在dom中通过ng-initZ设置默认选中项,或通过$scope.model的形式设置默认选中项.
+				//默认选中项都应该是value值和key值相对应.
+			})
+		</script>
+	</body>
+
+</html>
+

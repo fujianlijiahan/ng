@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+	</head>
+
+	<body>
+
+		<div ng-app="myApp">
+			<div ng-controller="myCtrll1">
+
+				<h1>{{second}}</h1>
+				<button data-ng-click="stopClick()">停止</button>
+			</div>
+		</div>
+		<script>
+			var app = angular.module('myApp', []);
+			app.controller('myCtrll1', function($scope, $interval) {
+				$scope.second = 0;
+				console.log(this);
+				var timer = $interval(function() {
+					$scope.second += 1;
+//					if($scope.second > 3) {
+//						$interval.cancel(timer);
+//					}
+				}, 1000);
+
+				$scope.stopClick = function() {
+					
+				};
+
+				  $scope.$on("$destory",function(){  
+				  	console.log(12123123)
+				      $scope.stopClick();  
+				  });  
+
+			});
+		</script>
+
+	</body>
+
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="./js/jquery-ui.js"></script>
+    <style type="text/css">
+        #parent {
+            overflow: hidden;
+        }
+
+        .child1 {
+            background: greenyellow;
+            height: 200px;
+            width: 100px;
+        }
+
+        .child2 {
+            background: #333;
+            height: 200px;
+            width: 100px;
+            color: #ffffff;
+        }
+
+        .child3 {
+            background: red;
+            height: 200px;
+            width: 100px;
+        }
+
+        .child4 {
+            background: yellow;
+            height: 200px;
+            width: 100px;
+        }
+
+        .lf {
+            float: left;
+        }
+
+        .rf {
+            float: right;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+
+        .nav {
+            overflow: hidden;
+        }
+
+        .nav li {
+            border: 1px solid #ffffff;
+            width: 98px;
+            height: 50px;
+            background-color: #0d3349;
+            float: left;
+            text-align: center;
+            line-height: 50px;
+        }
+
+        .nav li:hover {
+            cursor: pointer;
+        }
+
+        .content div {
+            display: none;
+            width: 400px;
+            height: 200px;
+            background: greenyellow;
+        }
+
+        .content div:first-child {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="parent">
+    <div class="child1 lf">
+        <p>这里是中央人民广播电视台,欢迎准点收听.</p>
+    </div>
+    <div class="child2 lf">
+        <p>这里是农村信用社</p>
+    </div>
+    <div class="child3 lf">
+        <p>这里是商业银行</p>
+    </div>
+    <div class="child4 rf"></div>
+</div>
+<ul class="nav">
+    <li>first</li>
+    <li>second</li>
+    <li>third</li>
+    <li>forth</li>
+</ul>
+<div class="content">
+    <div>first content</div>
+    <div>second content</div>
+    <div>third content</div>
+    <div>forth content</div>
+</div>
+<script>
+    $(".nav li").click(function () {
+        var i = $(this).index();
+        $(".content div").eq(i).show().siblings().hide();
+    })
+</script>
+</body>
+</html>

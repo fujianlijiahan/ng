@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Bootstrap 实例 - 模态框（Modal）插件</title>
+		<link rel="stylesheet" href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/jquery-ui.css" />
+		<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+		<script src="js/jquery-ui.js"></script>
+		<script src="js/jquery.form.js"></script>
+		<script src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<style type="text/css">
+			.mask {
+				position: absolute;
+				top: 0px;
+				background-color: #000;
+				z-index: 1002;
+				left: 0px;
+				opacity: 0.4;
+			}
+			
+			.ui-autocomplete {
+				display: block;
+				z-index: 9999;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<h2>创建模态框（Modal）</h2>
+
+		<!-- 按钮触发模态框 -->
+		<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+	开始演示模态框
+</button>
+		<!-- 模态框（Modal） -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="false">
+			<div id="mask" class="mask" style="display: none;"></div>
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+						<h4 class="modal-title" id="myModalLabel">
+					模态框（Modal）标题
+				</h4>
+					</div>
+					<div class="modal-body" style="">
+
+						<input type="" name="myname" id="myname" value="" data-provide="typeahead" data-items="4" />
+
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+						<button class="btn btn-primary" data-loading-text="正在提交" type="button" id="mySubmit"> 提交保存</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</div>
+			<!-- /.modal -->
+		</div>
+
+		<script>
+			//格式化的时间戳
+			function getTime() {
+				var date = new Date();
+				var year = date.getFullYear() + "";
+				var month = date.getMonth() + 1 + "";
+				var day = date.getDate() + "";
+				var h = date.getHours();
+				h = h < 10 ? "0" + h : h + "";
+				var m = date.getMinutes();
+				m = m < 10 ? "0" + m : m + "";
+				var s = date.getSeconds();
+				s = s < 10 ? "0" + s : s + "";
+				var random = Math.floor(Math.random() * 900 + 100) + "";
+				var myTime = year + month + day + h + m + s + random;
+				return myTime;
+			}
+			//根据首字自动补全
+			function autoComplete() {
+				var myarr = [];
+				for(var i in localStorage) {
+					if(i.indexOf('mykey') > -1) {
+						myarr.push(localStorage[i])
+					}
+				}
+				var subjects = myarr.slice(-5).reverse();
+				$('#myname').autocomplete({
+					source: subjects
+				});
+			}
+			//显示遮罩层
+			function showMask() {
+				$("#mask").css("height", $(document).height());
+				$("#mask").css("width", $(document).width());
+				$("#mask").show();
+			}
+			//隐藏遮罩层  
+			function hideMask() {
+
+				$("#mask").hide();
+			}
+			$(function() {
+
+				autoComplete();
+//				$("#myname").dblclick(function() {
+//					console.log($("#myname").offset().left);
+//					console.log($("#myname").offset().top + $("#myname").outerHeight(true));
+//					console.log($("#myname").outerWidth(true));
+//					var me = this;
+//					var myarr = [];
+//					for(var i in localStorage) {
+//						if(i.indexOf('mykey') > -1) {
+//							myarr.push(localStorage[i])
+//						}
+//					}
+//					var subjects = myarr.slice(-5).reverse();
+//					var html = '';
+//					for(var i = 0; i < subjects.length; i++) {
+//						html += `<li>${subjects[i]}</li>`;
+//						$(".ui-autocomplete").html(html);
+//					}
+//					$(".ui-autocomplete").show().css({
+//						'left': $(me).offset().left + 'px',
+//						'top': $(me).offset().top + $(me).outerHeight(true) + 'px',
+//						'width': $(me).outerWidth(true) + 'px'
+//					});
+//					$(".ui-autocomplete").find('li').unbind('click').bind('click',function(){
+//						$(me).val($(this).text());
+//						$(this).hide();
+//					});
+//					$(".ui-autocomplete").find('li').keypress(function(e){
+//						e.which == 13 && $(me).val($(this).text());
+//						$(this).hide();
+//					})
+//					//display: none; top: 128.612px; left: 484px; width: 181px;
+//				});
+				$("#mySubmit").click(function() {
+					$(this).button('loading').queue();
+
+					var me = this;
+					$.ajax({
+						type: 'post',
+						url: 'aa.php',
+						data: {
+							myname: $("#myname").val()
+						},
+						beforeSend: function() {
+							showMask();
+						},
+						success: function(json) {
+							$(me).button('reset');
+							$(me).dequeue();
+							hideMask();
+							$(".close").click();
+							var mykey = "mykey" + getTime();
+							localStorage.setItem(mykey, $("#myname").val());
+							autoComplete();
+						},
+						error: function(json) {
+							$(me).button('reset');
+							$(me).dequeue();
+							hideMask();
+							$(".close").click();
+							var mykey = "mykey" + getTime();
+							localStorage.setItem(mykey, $("#myname").val());
+							autoComplete();
+						}
+					})
+
+				});
+
+			});
+		</script>
+	</body>
+
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<script src="js/angular.min.js"></script>
+	</head>
+
+	<body>
+		<div ng-app="myApp">
+			<div ng-controller="myCtrl">
+				<input ng-model="checkboxModel" type="checkbox"  ng-click = "mychange(checkboxModel)">
+			</div>
+		</div>
+		<script type="text/javascript">
+			var app = angular.module('myApp', []);
+			app.controller('myCtrl', function($scope, $rootScope) {
+				$scope.checkboxModel = true;
+				$scope.mychange = function(isenabled){
+					console.log(isenabled);
+					$scope.checkboxModel = isenabled;
+				}
+			});
+		</script>
+	</body>
+
+</html>

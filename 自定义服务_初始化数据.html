@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<script src="js/angular.min.js"></script>
+	</head>
+
+	<body>
+
+		<div ng-app="myApp" ng-controller="firstController" ng-init = "getUser()">
+			<div>
+				<h1>45645555555555556</h1>
+				<!--<button ng-click ="getUser()">click</button>-->
+				<!--<div>{{result}}</div>-->
+				<table border="1" cellspacing="" cellpadding="">
+					<tr>
+						<td>{{result.username}}</td>
+						<td>{{result.salt}}</td>
+					</tr>
+				</table>
+			</div>
+			<input type="text" ng-model="kk" />
+			<div>{{kk}}</div>
+		</div>
+
+		<script>
+			var app = angular.module('myApp', []);
+			//			app.controller("firstController", ['$scope', 'userService', function($scope, userService) {
+			//				console.log("45456456456456")
+			//			}]);
+			//			app.service('userService',function(){
+			//				console.log("8888888888888888")
+			//				return;
+			//			})
+			app.service('userService', function($http, $q) {
+				
+				//var userService = {}; // 返回的服务
+
+				this.urlForRandomUser = "https://randomuser.me/api/";
+
+				var that = this; // 获取当前作用域，下面要用到
+				this.getRandomUser = function() {
+
+					var defered = $q.defer();
+
+					$http.get(that.urlForRandomUser)
+						.success(function(data) {
+							console.log("先执行");
+							console.log(data);
+							defered.resolve(data.results[0]);
+						})
+						.error(function(err) {
+							defered.reject(err);
+						});
+					return defered.promise; // 把defered对象中的promise对象返回出来
+				};
+			});
+			app.controller('firstController', ['$scope', 'userService', function($scope, user) {
+
+				$scope.getUser = function() {
+
+					function success(data) {
+						console.log("后执行")
+						console.log(data);
+						var str = angular.toJson(data, true); // 用angular的格式化json的方法，更为清晰
+						console.log(data.login);
+						$scope.result = data.login;
+					}
+
+					function error(err) {
+						$scope.result = err;
+						alert('error occured!\n' + err);
+					}
+					// 注意这里不能用success或error函数，用then就好,这一步调用success函数和error函数
+					user.getRandomUser().then(success, error);
+				}
+				
+			}]);
+			
+		</script>
+
+	</body>
+
+</html>

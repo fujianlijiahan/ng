@@ -1,0 +1,60 @@
+<!DOCTYPE html>  
+<html>  
+    <head>  
+        <meta charset="UTF-8">  
+        <title>AngularJS停止定时器</title>  
+        <script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>  
+        <script>  
+            var app = angular.module("intervalApp",[]);  
+            app.controller("intervalController",["$scope","$interval",function($scope,$interval){  
+                $scope.startData = 100;  
+                $scope.endData = 1000;  
+                  
+                var stopEvent;  
+                  
+                $scope.startEvent = function(){  
+                    if(angular.isDefined(stopEvent)) return;  
+                      
+                    stopEvent = $interval(function(){  
+                        if($scope.startData > 50 && $scope.endData > 500)  
+                        {  
+                            $scope.startData = $scope.startData - 5;  
+                            $scope.endData = $scope.endData - 50;  
+                        }  
+                        else  
+                        {  
+                            $scope.stopClick();  
+                        }  
+                    },1000)  
+                };  
+                  
+                $scope.stopClick = function(){  
+                    if(angular.isDefined(stopEvent))  
+                    {  
+                        $interval.cancel(stopEvent);  
+                        stopEvent = undefined;  
+                    }  
+                };  
+                  
+                $scope.resetEvent = function(){  
+                    $scope.startData = 100;  
+                    $scope.endData = 1000;  
+                };  
+                  
+                $scope.$on("$destory",function(){  
+                	console.log(45456456456)
+                    $scope.stopClick();  
+                });  
+            }]);  
+        </script>  
+    </head>  
+    <body ng-app="intervalApp">  
+        <div ng-controller="intervalController">  
+            <button data-ng-click="startEvent()">开始</button>  
+            <button data-ng-click="stopClick()">停止</button>  
+            <button data-ng-click="resetEvent()">重置</button><br>  
+            <div>开始数据：{{startData}}</div><br>  
+            <div>结束数据：{{endData}}</div><br>  
+        </div>  
+    </body>  
+</html>  

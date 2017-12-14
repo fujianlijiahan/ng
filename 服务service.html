@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<script src="http://cdn.static.runoob.com/libs/angular.js/1.4.6/angular.min.js"></script>
+</head>
+<body>
+
+<div ng-app="myApp" >
+	<div ng-controller="myCtrl">
+		<p> 当前页面的url:</p>
+<h3>{{l}}</h3>
+	</div>
+
+
+<p>两秒后显示</p>
+<div ng-controller="myCtrll">
+	<h1>{{myText}}</h1>
+</div>
+<div ng-controller="myCtrll1">
+	<h1>{{second}}</h1>
+</div>
+</div>
+
+
+
+<script>
+var app = angular.module('myApp', []);
+app.controller('myCtrl', function($scope, $location) {
+    $scope.l = $location.absUrl();
+});
+app.controller('myCtrll',function($scope,$timeout){
+	$scope.myText = "hello world";
+	$timeout(function(){
+		$scope.myText = "who are you ?";
+	},3000)
+});
+app.controller('myCtrll1',function($scope,$interval ){
+	$scope.second = 0;
+	var timer = $interval(function(){
+		$scope.second +=1;
+
+	},1000);
+
+	$scope.$on('myCtrll1',function(){
+		console.log(4564564564)
+   		//$interval.cancel($scope.timer);
+	})  //在控制器里，添加$on函数
+
+	
+});
+
+</script>
+
+</body>
+</html>
