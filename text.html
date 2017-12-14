@@ -154,7 +154,7 @@
 			}
 			$(".textParent").html(html2);
 
-			function mouseClick() {
+			function mouseClick(xx, yy) {
 				var html = '';
 				var random = Math.floor(Math.random() * 68);
 				var randomLanguage = arrOtherLanguage[random];
@@ -163,8 +163,10 @@
 				var a2 = Math.floor(Math.random() * 255 + 1);
 				var a3 = Math.floor(Math.random() * 255 + 1);
 				var randomColor = "rgb(${a1},${a2},${a3})";
-				var randomLeft = Math.floor(Math.random() * 960) + 'px';
-				var randomTop = Math.floor(Math.random() * 540) + 'px';
+				//				var randomLeft = Math.floor(Math.random() * 960) + 'px';
+				//				var randomTop = Math.floor(Math.random() * 540) + 'px';
+				var randomLeft = xx + 'px';
+				var randomTop = yy + 'px';
 				var randomRotate = Math.floor(Math.random() * 360);
 				html +=
 					`<div class="randomLanguage" style="font-size:${randomFontSize};
@@ -180,13 +182,15 @@
 				});
 
 			}
-			$(document).click(function() {
-				mouseClick();
+			$(document).click(function(e) {
+				var xx = e.clientX;
+				var yy = e.clientY;
+				mouseClick(xx, yy);
 				clearInterval(timer);
 			});
-			var timer = setInterval(function(){
+			var timer = setInterval(function() {
 				$(document).click();
-			},50)
+			}, 50)
 		</script>
 	</body>
 
